@@ -25,7 +25,7 @@ char *argv0;
 /* types used in config.h */
 typedef struct {
 	uint mod;
-	KeySym keysym;
+	KeySym keysym; 
 	void (*func)(const Arg *);
 	const Arg arg;
 } Shortcut;
@@ -2047,7 +2047,7 @@ void
 kpress(XEvent *ev)
 {
 	XKeyEvent *e = &ev->xkey;
-	KeySym ksym;
+	KeySym ksym = NoSymbol;
 	char buf[64], *customkey;
 	int len;
 	Rune c;
@@ -2057,10 +2057,13 @@ kpress(XEvent *ev)
 	if (IS_SET(MODE_KBDLOCK))
 		return;
 
-	if (xw.ime.xic)
+	if (xw.ime.xic) {
 		len = XmbLookupString(xw.ime.xic, e, buf, sizeof buf, &ksym, &status);
-	else
-		len = XLookupString(e, buf, sizeof buf, &ksym, NULL);
+		if (status == XBufferOverflow)
+			return;
+	} else {
+ 		len = XLookupString(e, buf, sizeof buf, &ksym, NULL);
+	}
 	/* 1. shortcuts */
 	for (bp = shortcuts; bp < shortcuts + LEN(shortcuts); bp++) {
 		if (ksym == bp->keysym && match(bp->mod, e->state)) {
