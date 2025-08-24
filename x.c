@@ -2081,6 +2081,7 @@ kpress(XEvent *ev)
 	} else {
  		len = XLookupString(e, buf, sizeof buf, &ksym, NULL);
 	}
+
 	/* 1. shortcuts */
 	for (bp = shortcuts; bp < shortcuts + LEN(shortcuts); bp++) {
 		if (ksym == bp->keysym && match(bp->mod, e->state)) {
