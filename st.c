@@ -2041,7 +2041,7 @@ strhandle(void)
 			else if (xsetcolorname(defaultfg, p))
 				fprintf(stderr, "erresc: invalid foreground color: %s\n", p);
 			else
-				redraw();
+				tfulldirt();
 			return;
 		case 11:
 			if (narg < 2)
@@ -2054,7 +2054,7 @@ strhandle(void)
 			else if (xsetcolorname(defaultbg, p))
 				fprintf(stderr, "erresc: invalid background color: %s\n", p);
 			else
-				redraw();
+				tfulldirt();
 			return;
 		case 12:
 			if (narg < 2)
@@ -2067,7 +2067,7 @@ strhandle(void)
 			else if (xsetcolorname(defaultcs, p))
 				fprintf(stderr, "erresc: invalid cursor color: %s\n", p);
 			else
-				redraw();
+				tfulldirt();
 			return;
 		case 4: /* color set */
 			if (narg < 3)
@@ -2089,7 +2089,7 @@ strhandle(void)
 				 * TODO if defaultbg color is changed, borders
 				 * are dirty
 				 */
-				redraw();
+				tfulldirt();
 			}
 			return;
 		}
