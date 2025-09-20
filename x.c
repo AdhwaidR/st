@@ -1821,10 +1821,12 @@ xseticontitle(char *p)
 {
 	XTextProperty prop;
 	DEFAULT(p, opt_title);
+	if (p[0] == '\0')
+		p = opt_title;
 
 	if (Xutf8TextListToTextProperty(xw.dpy, &p, 1, XUTF8StringStyle,
 	                                &prop) != Success)
-		return;
+	return;
 	XSetWMIconName(xw.dpy, xw.win, &prop);
 	XSetTextProperty(xw.dpy, xw.win, &prop, xw.netwmiconname);
 	XFree(prop.value);
@@ -1843,7 +1845,10 @@ xsettitle(char *p, int pop)
 {
 	XTextProperty prop;
 	DEFAULT(p, opt_title);
- 
+
+	if (p[0] == '\0')
+		p = opt_title;
+
 	free(titlestack[tstki]);
 	if (pop) {
 		titlestack[tstki] = NULL;
